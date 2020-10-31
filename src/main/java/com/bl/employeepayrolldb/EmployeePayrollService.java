@@ -63,4 +63,11 @@ public class EmployeePayrollService {
 		}
 		return employeePayrollList.size();
 	}
+
+	public List<EmployeePayrollData> readEmployeePayrollDataDB(IOService ioService) {
+		if (ioService.equals(IOService.DB_IO)) {
+			this.employeePayrollList = new EmployeePayrollDBService().readData();
+		}
+		return this.employeePayrollList;
+	}
 }
