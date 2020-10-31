@@ -33,14 +33,16 @@ public class EmployeePayrollServiceTest {
 	@Test
 	public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollDataDB(IOService.DB_IO);
+		List<EmployeePayrollData> employeePayrollData = employeePayrollService
+				.readEmployeePayrollDataDB(IOService.DB_IO);
 		Assert.assertEquals(3, employeePayrollData.size());
 	}
-	
+
 	@Test
-	public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB(){
+	public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollDataDB(IOService.DB_IO);
+		List<EmployeePayrollData> employeePayrollData = employeePayrollService
+				.readEmployeePayrollDataDB(IOService.DB_IO);
 		employeePayrollService.updateEmployeeSalary("Terisa", 3000000.00);
 		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Terisa");
 		Assert.assertTrue(result);

@@ -10,7 +10,7 @@ public class EmployeePayrollService {
 	}
 
 	private static EmployeePayrollDBService employeePayrollDBService;
-	
+
 	private List<EmployeePayrollData> employeePayrollList;
 
 	public EmployeePayrollService() {
@@ -76,17 +76,17 @@ public class EmployeePayrollService {
 	}
 
 	public void updateEmployeeSalary(String name, double salary) {
-		int result = employeePayrollDBService.updateEmployeeData(name,salary);
-		if(result==0) return;
+		int result = employeePayrollDBService.updateEmployeeData(name, salary);
+		if (result == 0)
+			return;
 		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
-		if(employeePayrollData!=null) employeePayrollData.salary=salary;
+		if (employeePayrollData != null)
+			employeePayrollData.salary = salary;
 	}
 
 	private EmployeePayrollData getEmployeePayrollData(String name) {
 		return this.employeePayrollList.stream()
-					.filter(employeePayrollDataItem -> employeePayrollDataItem.name.equals(name))
-					.findFirst()
-					.orElse(null);
+				.filter(employeePayrollDataItem -> employeePayrollDataItem.name.equals(name)).findFirst().orElse(null);
 	}
 
 	public boolean checkEmployeePayrollInSyncWithDB(String name) {
