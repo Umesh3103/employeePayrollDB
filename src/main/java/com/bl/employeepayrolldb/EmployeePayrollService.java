@@ -100,20 +100,20 @@ public class EmployeePayrollService {
 
 	public List<EmployeePayrollData> readEmployeePayrollForDateRange(IOService ioService, LocalDate startDate,
 			LocalDate endDate) {
-		if(ioService.equals(IOService.DB_IO)){
+		if (ioService.equals(IOService.DB_IO)) {
 			return employeePayrollDBService.getEmployeePayrollForDateRange(startDate, endDate);
 		}
 		return null;
 	}
 
 	public Map<String, Double> readAverageSalaryByGender(IOService ioService) {
-		if(ioService.equals(IOService.DB_IO)){
+		if (ioService.equals(IOService.DB_IO)) {
 			return employeePayrollDBService.getAverageSalaryByGender();
 		}
 		return null;
 	}
 
 	public void addEmployeeToPayroll(String name, double salary, LocalDate startDate, String gender) {
-		employeePayrollList.add(employeePayrollDBService.addEmployeeToPayroll(name,salary,startDate,gender));
+		employeePayrollList.add(employeePayrollDBService.addEmployeeToPayroll(name, salary, startDate, gender));
 	}
 }
