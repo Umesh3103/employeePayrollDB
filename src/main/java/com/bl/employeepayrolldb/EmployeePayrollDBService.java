@@ -85,7 +85,7 @@ public class EmployeePayrollDBService {
 				double salary = resultSet.getDouble("salary");
 				LocalDate startDate = resultSet.getDate("start").toLocalDate();
 				int companyId = resultSet.getInt("company_id");
-				String deptName= resultSet.getString("dept_name");
+				String deptName = resultSet.getString("dept_name");
 				employeePayrollList.add(new EmployeePayrollData(id, name, salary, startDate, companyId, deptName));
 			}
 		} catch (SQLException e) {
@@ -162,7 +162,8 @@ public class EmployeePayrollDBService {
 		return employeePayrolldata;
 	}
 
-	public EmployeePayrollData addEmployeeToPayroll(String name, double salary, LocalDate startDate, String gender, int companyId, String[] deptArray) {
+	public EmployeePayrollData addEmployeeToPayroll(String name, double salary, LocalDate startDate, String gender,
+			int companyId, String[] deptArray) {
 		int employeeId = -1;
 		EmployeePayrollData employeePayrolldata = null;
 		Connection connection = null;
@@ -203,7 +204,8 @@ public class EmployeePayrollDBService {
 					employeeId, salary, deductions, taxablePay, tax, netPay);
 			int rowAffected = statement.executeUpdate(sql);
 			if (rowAffected == 1)
-				employeePayrolldata = new EmployeePayrollData(employeeId, name, salary, startDate, companyId, deptArray[0]);
+				employeePayrolldata = new EmployeePayrollData(employeeId, name, salary, startDate, companyId,
+						deptArray[0]);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			try {

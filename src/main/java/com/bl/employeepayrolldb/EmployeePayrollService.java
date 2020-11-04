@@ -113,7 +113,9 @@ public class EmployeePayrollService {
 		return null;
 	}
 
-	public void addEmployeeToPayroll(String name, double salary, LocalDate startDate, String gender, int companyId, String[] deptList) {
-		employeePayrollList.add(employeePayrollDBService.addEmployeeToPayroll(name, salary, startDate, gender, companyId, deptList));
+	public void addEmployeeToPayroll(String name, double salary, LocalDate startDate, String gender, int companyId,
+			String[] deptList) {
+		employeePayrollList.add(
+				employeePayrollDBService.addEmployeeToPayroll(name, salary, startDate, gender, companyId, deptList));
 	}
 }

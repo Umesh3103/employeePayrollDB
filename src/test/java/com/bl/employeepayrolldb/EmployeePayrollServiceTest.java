@@ -70,11 +70,11 @@ public class EmployeePayrollServiceTest {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollDataDB(IOService.DB_IO);
 		String[] deptArray = new String[4];
-		deptArray[0]="sales";
-		deptArray[1]="hr";
-		deptArray[2]="marketing";
-		deptArray[3]="hr,sales";
-		employeePayrollService.addEmployeeToPayroll("Mark", 5000000.00, LocalDate.now(), "M",2, deptArray);
+		deptArray[0] = "sales";
+		deptArray[1] = "hr";
+		deptArray[2] = "marketing";
+		deptArray[3] = "hr,sales";
+		employeePayrollService.addEmployeeToPayroll("Mark", 5000000.00, LocalDate.now(), "M", 2, deptArray);
 		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Mark");
 		Assert.assertTrue(result);
 	}

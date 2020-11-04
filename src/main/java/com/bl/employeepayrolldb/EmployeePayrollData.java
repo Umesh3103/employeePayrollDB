@@ -24,10 +24,11 @@ public class EmployeePayrollData {
 		this.startDate = startDate;
 	}
 
-	public EmployeePayrollData(int id, String name, double salary, LocalDate startDate, int companyId, String department){
-		this(id,name,salary,startDate);
-		this.companyId=companyId;
-		this.department=department;
+	public EmployeePayrollData(int id, String name, double salary, LocalDate startDate, int companyId,
+			String department) {
+		this(id, name, salary, startDate);
+		this.companyId = companyId;
+		this.department = department;
 	}
 
 	@Override
@@ -68,5 +69,5 @@ public class EmployeePayrollData {
 			return false;
 		return true;
 	}
-	
+
 }
