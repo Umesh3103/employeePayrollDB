@@ -32,7 +32,7 @@ public class EmployeePayrollServiceTest {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService
 				.readEmployeePayrollDataDB(IOService.DB_IO);
-		Assert.assertEquals(4, employeePayrollData.size());
+		Assert.assertEquals(5, employeePayrollData.size());
 	}
 
 	@Test
@@ -53,7 +53,7 @@ public class EmployeePayrollServiceTest {
 		LocalDate endDate = LocalDate.now();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService
 				.readEmployeePayrollForDateRange(IOService.DB_IO, startDate, endDate);
-		Assert.assertEquals(4, employeePayrollData.size());
+		Assert.assertEquals(5, employeePayrollData.size());
 	}
 
 	@Test
@@ -76,6 +76,20 @@ public class EmployeePayrollServiceTest {
 		deptArray[3] = "hr,sales";
 		employeePayrollService.addEmployeeToPayroll("Mark", 5000000.00, LocalDate.now(), "M", 2, deptArray);
 		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Mark");
+		Assert.assertTrue(result);
+	}
+	
+	@Test
+	public void givenNewEmployee_WhenAdded_ShouldSyncWithNewDB() {
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readEmployeePayrollDataDB(IOService.DB_IO);
+		String[] deptArray = new String[4];
+		deptArray[0] = "sales";
+		deptArray[1] = "hr";
+		deptArray[2] = "marketing";
+		deptArray[3] = "hr,sales";
+		employeePayrollService.addEmployeeToPayroll("Radha", 3000000.00, LocalDate.now(), "F", 1, deptArray);
+		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Radha");
 		Assert.assertTrue(result);
 	}
 }
