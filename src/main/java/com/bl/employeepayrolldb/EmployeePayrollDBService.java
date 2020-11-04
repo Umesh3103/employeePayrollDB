@@ -1,5 +1,6 @@
 package com.bl.employeepayrolldb;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -83,7 +84,9 @@ public class EmployeePayrollDBService {
 				String name = resultSet.getString("name");
 				double salary = resultSet.getDouble("salary");
 				LocalDate startDate = resultSet.getDate("start").toLocalDate();
-				employeePayrollList.add(new EmployeePayrollData(id, name, salary, startDate));
+				int companyId = resultSet.getInt("company_id");
+				String deptName= resultSet.getString("dept_name");
+				employeePayrollList.add(new EmployeePayrollData(id, name, salary, startDate, companyId, deptName));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -159,7 +162,7 @@ public class EmployeePayrollDBService {
 		return employeePayrolldata;
 	}
 
-	public EmployeePayrollData addEmployeeToPayroll(String name, double salary, LocalDate startDate, String gender) {
+	public EmployeePayrollData addEmployeeToPayroll(String name, double salary, LocalDate startDate, String gender, int companyId, String[] deptArray) {
 		int employeeId = -1;
 		EmployeePayrollData employeePayrolldata = null;
 		Connection connection = null;
@@ -172,8 +175,8 @@ public class EmployeePayrollDBService {
 
 		try (Statement statement = connection.createStatement()) {
 			String sql = String.format(
-					"INSERT INTO employee_payroll_table (name, gender, salary, start) VALUES ('%s', '%s', '%s', '%s')",
-					name, gender, salary, Date.valueOf(startDate));
+					"INSERT INTO employee_payroll_table (name, gender, salary, start, company_id, dept_name) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
+					name, gender, salary, Date.valueOf(startDate), companyId, deptArray[0]);
 			int rowAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
 			if (rowAffected == 1) {
 				ResultSet resultSet = statement.getGeneratedKeys();
@@ -200,7 +203,7 @@ public class EmployeePayrollDBService {
 					employeeId, salary, deductions, taxablePay, tax, netPay);
 			int rowAffected = statement.executeUpdate(sql);
 			if (rowAffected == 1)
-				employeePayrolldata = new EmployeePayrollData(employeeId, name, salary, startDate);
+				employeePayrolldata = new EmployeePayrollData(employeeId, name, salary, startDate, companyId, deptArray[0]);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			try {

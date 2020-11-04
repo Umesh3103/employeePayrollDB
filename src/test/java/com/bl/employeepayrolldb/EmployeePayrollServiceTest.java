@@ -1,6 +1,8 @@
 package com.bl.employeepayrolldb;
 
+import java.sql.Array;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +24,6 @@ public class EmployeePayrollServiceTest {
 		employeePayrollService.writeEmployeePayrollData(IOService.FILE_IO);
 		employeePayrollService.printData(IOService.FILE_IO);
 		long entries = employeePayrollService.countEntries(IOService.FILE_IO);
-		Assert.assertEquals(3, entries);
-	}
-
-	@Test
-	public void GivenFile_OnReadingFromFile_ShouldMatchEmployeeCount() {
-		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-		long entries = employeePayrollService.readEmployeePayrollData(IOService.FILE_IO);
 		Assert.assertEquals(3, entries);
 	}
 
@@ -74,7 +69,12 @@ public class EmployeePayrollServiceTest {
 	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollDataDB(IOService.DB_IO);
-		employeePayrollService.addEmployeeToPayroll("Mark", 5000000.00, LocalDate.now(), "M");
+		String[] deptArray = new String[4];
+		deptArray[0]="sales";
+		deptArray[1]="hr";
+		deptArray[2]="marketing";
+		deptArray[3]="hr,sales";
+		employeePayrollService.addEmployeeToPayroll("Mark", 5000000.00, LocalDate.now(), "M",2, deptArray);
 		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Mark");
 		Assert.assertTrue(result);
 	}

@@ -1,6 +1,7 @@
 package com.bl.employeepayrolldb;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class EmployeePayrollData {
 
@@ -8,6 +9,8 @@ public class EmployeePayrollData {
 	String name;
 	double salary;
 	private LocalDate startDate;
+	private int companyId;
+	private String department;
 
 	public EmployeePayrollData(int id, String name, double salary) {
 		super();
@@ -21,9 +24,16 @@ public class EmployeePayrollData {
 		this.startDate = startDate;
 	}
 
+	public EmployeePayrollData(int id, String name, double salary, LocalDate startDate, int companyId, String department){
+		this(id,name,salary,startDate);
+		this.companyId=companyId;
+		this.department=department;
+	}
+
 	@Override
 	public String toString() {
-		return "id=" + id + ", name=" + name + ", salary=" + salary + ", start=" + startDate;
+		return "EmployeePayrollData [id=" + id + ", name=" + name + ", salary=" + salary + ", startDate=" + startDate
+				+ ", companyId=" + companyId + ", department=" + department + "]";
 	}
 
 	@Override
@@ -35,6 +45,13 @@ public class EmployeePayrollData {
 		if (getClass() != obj.getClass())
 			return false;
 		EmployeePayrollData other = (EmployeePayrollData) obj;
+		if (companyId != other.companyId)
+			return false;
+		if (department == null) {
+			if (other.department != null)
+				return false;
+		} else if (!department.equals(other.department))
+			return false;
 		if (id != other.id)
 			return false;
 		if (name == null) {
@@ -51,4 +68,5 @@ public class EmployeePayrollData {
 			return false;
 		return true;
 	}
+	
 }
