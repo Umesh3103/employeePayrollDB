@@ -72,14 +72,14 @@ public class EmployeePayrollService {
 		return employeePayrollList.size();
 	}
 
-	public List<EmployeePayrollData> readEmployeePayrollDataDB(IOService ioService) {
+	public List<EmployeePayrollData> readEmployeePayrollDataDB(IOService ioService) throws employeePayrollException {
 		if (ioService.equals(IOService.DB_IO)) {
 			this.employeePayrollList = employeePayrollDBService.readData();
 		}
 		return this.employeePayrollList;
 	}
 
-	public void updateEmployeeSalary(String name, double salary) {
+	public void updateEmployeeSalary(String name, double salary) throws employeePayrollException {
 		int result = employeePayrollDBService.updateEmployeeData(name, salary);
 		if (result == 0)
 			return;
@@ -93,20 +93,20 @@ public class EmployeePayrollService {
 				.filter(employeePayrollDataItem -> employeePayrollDataItem.name.equals(name)).findFirst().orElse(null);
 	}
 
-	public boolean checkEmployeePayrollInSyncWithDB(String name) {
+	public boolean checkEmployeePayrollInSyncWithDB(String name) throws employeePayrollException {
 		List<EmployeePayrollData> employeePayrollDataList = employeePayrollDBService.getEmployeePayrollData(name);
 		return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
 	}
 
 	public List<EmployeePayrollData> readEmployeePayrollForDateRange(IOService ioService, LocalDate startDate,
-			LocalDate endDate) {
+			LocalDate endDate) throws employeePayrollException {
 		if (ioService.equals(IOService.DB_IO)) {
 			return employeePayrollDBService.getEmployeePayrollForDateRange(startDate, endDate);
 		}
 		return null;
 	}
 
-	public Map<String, Double> readAverageSalaryByGender(IOService ioService) {
+	public Map<String, Double> readAverageSalaryByGender(IOService ioService) throws employeePayrollException {
 		if (ioService.equals(IOService.DB_IO)) {
 			return employeePayrollDBService.getAverageSalaryByGender();
 		}
@@ -114,8 +114,21 @@ public class EmployeePayrollService {
 	}
 
 	public void addEmployeeToPayroll(String name, double salary, LocalDate startDate, String gender, int companyId,
-			String[] deptList) {
+			String[] deptList) throws employeePayrollException {
 		employeePayrollList.add(
 				employeePayrollDBService.addEmployeeToPayroll(name, salary, startDate, gender, companyId, deptList));
+	}
+
+	public int removeEmployeeFromPayroll(String name, int is_active) throws employeePayrollException {
+		int result = employeePayrollDBService.removeEmployeeFromPayrollDB(name,is_active);
+		if(result==1){
+			for(EmployeePayrollData employee :employeePayrollList){
+				if(employee.name.equals(name)){
+					employeePayrollList.remove(employee);
+					break;
+				}
+			}
+		}
+		return employeePayrollList.size();
 	}
 }

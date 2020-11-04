@@ -28,7 +28,7 @@ public class EmployeePayrollServiceTest {
 	}
 
 	@Test
-	public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
+	public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() throws employeePayrollException {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService
 				.readEmployeePayrollDataDB(IOService.DB_IO);
@@ -36,7 +36,7 @@ public class EmployeePayrollServiceTest {
 	}
 
 	@Test
-	public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB() {
+	public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB() throws employeePayrollException {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService
 				.readEmployeePayrollDataDB(IOService.DB_IO);
@@ -46,7 +46,7 @@ public class EmployeePayrollServiceTest {
 	}
 
 	@Test
-	public void givenDateRange_WhenRetrieved_ShouldMatchEmployeeCount() {
+	public void givenDateRange_WhenRetrieved_ShouldMatchEmployeeCount() throws employeePayrollException {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollDataDB(IOService.DB_IO);
 		LocalDate startDate = LocalDate.of(2018, 01, 01);
@@ -57,7 +57,7 @@ public class EmployeePayrollServiceTest {
 	}
 
 	@Test
-	public void givenPayrollData_WhenAverageSalaryRetrievedByGender_ShouldReturnProperValue() {
+	public void givenPayrollData_WhenAverageSalaryRetrievedByGender_ShouldReturnProperValue() throws employeePayrollException {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollDataDB(IOService.DB_IO);
 		Map<String, Double> averageSalaryByGender = employeePayrollService.readAverageSalaryByGender(IOService.DB_IO);
@@ -66,7 +66,7 @@ public class EmployeePayrollServiceTest {
 	}
 
 	@Test
-	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
+	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() throws employeePayrollException {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollDataDB(IOService.DB_IO);
 		String[] deptArray = new String[4];
@@ -80,7 +80,7 @@ public class EmployeePayrollServiceTest {
 	}
 	
 	@Test
-	public void givenNewEmployee_WhenAdded_ShouldSyncWithNewDB() {
+	public void givenNewEmployee_WhenAdded_ShouldSyncWithNewDB() throws employeePayrollException {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollDataDB(IOService.DB_IO);
 		String[] deptArray = new String[4];
@@ -91,5 +91,14 @@ public class EmployeePayrollServiceTest {
 		employeePayrollService.addEmployeeToPayroll("Radha", 3000000.00, LocalDate.now(), "F", 1, deptArray);
 		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Radha");
 		Assert.assertTrue(result);
+	}
+	
+	@Test
+	public void givenEmployee_WhenRemoved_ShouldGetRemoved() throws employeePayrollException{
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readEmployeePayrollDataDB(IOService.DB_IO);
+		int result = employeePayrollService.removeEmployeeFromPayroll("Mark",0);
+		System.out.println(result);
+		Assert.assertEquals(4,result);
 	}
 }
